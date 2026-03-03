@@ -1,20 +1,18 @@
 # weareleaking
 
-A browser extension that scans localStorage and sessionStorage on every website you visit, flags suspicious tracking data, and gives you a quick verdict. Part of the **weare____** privacy tool series.
+See what tracking data websites store in your browser.
 
-No data leaves your browser. No accounts. No tracking.
+weareleaking scans localStorage and sessionStorage on every website you visit and shows you what's being stored without your knowledge. It detects cross-site trackers, advertising networks, fingerprinting IDs, and exposed personal data using pattern matching against known tracking systems like Google Analytics, Facebook Pixel, Segment, HotJar, and more. Open the popup for a quick per-site verdict — how many items are flagged, what categories they fall into, and how much data the site is keeping locally. Everything runs in your browser. No data is collected, transmitted, or shared.
 
-## What it does
+Part of the **weare____** privacy tool series.
 
-Every time you load a page, weareleaking reads all localStorage and sessionStorage keys, runs them against pattern-matching rules, and shows you what's going on:
+## What it detects
 
 - **Cross-site tracking** — third-party systems following you across the web (`_ga`, `_fbp`, `segment`, `amplitude`, `hotjar`, `permutive`, `clarity`, etc.)
 - **Advertising** — ad networks and retargeting (`gclid`, `fbclid`, `utm_*`, `__gads`, `doubleclick`, `criteo`, `taboola`)
 - **Fingerprinting** — device and browser identification (`device_id`, `browser_id`, `visitor_id`, `fingerprint`)
 - **PII exposure** — personal data sitting in storage (email addresses)
 - **Tracking** — generic tracking identifiers (UUIDs in values)
-
-The popup shows a quick verdict per site: flagged count / total items, category breakdown by severity, and a collapsed count of clean items. Badge on the icon shows flagged count per tab.
 
 ## Install
 
@@ -77,9 +75,8 @@ weareleaking/
 ## Known limitations
 
 - Content scripts can only read same-origin storage (cross-origin iframes are skipped)
-- IndexedDB and Cache API are not scanned (planned for v1)
+- IndexedDB and Cache API are not scanned
 - UUID detection may flag non-tracking UUIDs (e.g., app-generated IDs)
-- Firefox version requires reloading as a temporary add-on on each browser restart
 
 ## Roadmap
 
@@ -88,7 +85,6 @@ weareleaking/
 - [ ] Storage size tracking per domain
 - [ ] Historical comparison — what changed since last visit
 - [ ] Export/share report
-- [ ] Chrome Web Store + Firefox Add-ons publishing
 
 ## License
 

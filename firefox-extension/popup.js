@@ -21,7 +21,7 @@ function render(data) {
   var emptyEl = document.getElementById("empty");
 
   if (!data || !data.items || data.items.length === 0) {
-    verdictEl.innerHTML = renderVerdict(data ? data.domain : "Unknown", 0, 0);
+    verdictEl.appendChild(buildVerdict(data ? data.domain : "Unknown", 0, 0));
     emptyEl.classList.remove("hidden");
     return;
   }
@@ -37,20 +37,20 @@ function render(data) {
     }
   }
 
-  verdictEl.innerHTML = renderVerdict(data.domain, flaggedItems.length, total);
+  verdictEl.appendChild(buildVerdict(data.domain, flaggedItems.length, total));
 
   if (flaggedItems.length > 0) {
     flaggedSection.classList.remove("hidden");
-    flaggedSection.innerHTML = renderFlaggedBreakdown(flaggedItems);
+    buildFlaggedBreakdown(flaggedSection, flaggedItems);
   }
 
   if (cleanItems.length > 0) {
     cleanSection.classList.remove("hidden");
-    cleanSection.innerHTML = renderCleanSummary(cleanItems);
+    buildCleanSummary(cleanSection, cleanItems);
   }
 }
 
-function renderVerdict(domain, flagged, total) {
+function buildVerdict(domain, flagged, total) {
   var level = "clean";
   var message = "Nothing suspicious found.";
   if (flagged > 0 && flagged <= 3) {
@@ -61,21 +61,34 @@ function renderVerdict(domain, flagged, total) {
     message = flagged + " suspicious items found.";
   }
 
-  var html = '<div class="verdict verdict-' + level + '">';
-  html += '<div class="verdict-domain">' + escapeHtml(domain) + "</div>";
-  html += '<div class="verdict-count">';
+  var wrap = el("div", "verdict verdict-" + level);
+
+  var domainEl = el("div", "verdict-domain");
+  domainEl.textContent = domain;
+  wrap.appendChild(domainEl);
+
+  var countEl = el("div", "verdict-count");
   if (total > 0) {
-    html += '<span class="verdict-flagged">' + flagged + "</span>";
-    html += '<span class="verdict-sep"> / </span>';
-    html += '<span class="verdict-total">' + total + "</span>";
+    var f = el("span", "verdict-flagged");
+    f.textContent = flagged;
+    var sep = el("span", "verdict-sep");
+    sep.textContent = " / ";
+    var t = el("span", "verdict-total");
+    t.textContent = total;
+    countEl.appendChild(f);
+    countEl.appendChild(sep);
+    countEl.appendChild(t);
   }
-  html += "</div>";
-  html += '<div class="verdict-message">' + message + "</div>";
-  html += "</div>";
-  return html;
+  wrap.appendChild(countEl);
+
+  var msg = el("div", "verdict-message");
+  msg.textContent = message;
+  wrap.appendChild(msg);
+
+  return wrap;
 }
 
-function renderFlaggedBreakdown(items) {
+function buildFlaggedBreakdown(container, items) {
   var counts = {};
   for (var i = 0; i < items.length; i++) {
     for (var j = 0; j < items[i].flags.length; j++) {
@@ -92,29 +105,37 @@ function renderFlaggedBreakdown(items) {
     return ai - bi;
   });
 
-  var html = '<div class="section-label">Flagged</div>';
-  html += '<div class="breakdown">';
+  var label = el("div", "section-label");
+  label.textContent = "Flagged";
+  container.appendChild(label);
+
+  var breakdown = el("div", "breakdown");
   for (var c = 0; c < categories.length; c++) {
-    var cat = categories[c];
-    html += '<div class="breakdown-row">';
-    html += '<span class="breakdown-category">' + escapeHtml(cat) + "</span>";
-    html += '<span class="breakdown-count">' + counts[cat] + "</span>";
-    html += "</div>";
+    var row = el("div", "breakdown-row");
+    var catEl = el("span", "breakdown-category");
+    catEl.textContent = categories[c];
+    var countEl = el("span", "breakdown-count");
+    countEl.textContent = counts[categories[c]];
+    row.appendChild(catEl);
+    row.appendChild(countEl);
+    breakdown.appendChild(row);
   }
-  html += "</div>";
-  return html;
+  container.appendChild(breakdown);
 }
 
-function renderCleanSummary(items) {
-  var html = '<div class="clean-summary">';
-  html += '<span class="section-label">Other</span>';
-  html += '<span class="clean-count">' + items.length + " item" + (items.length !== 1 ? "s" : "") + "</span>";
-  html += "</div>";
-  return html;
+function buildCleanSummary(container, items) {
+  var summary = el("div", "clean-summary");
+  var label = el("span", "section-label");
+  label.textContent = "Other";
+  var count = el("span", "clean-count");
+  count.textContent = items.length + " item" + (items.length !== 1 ? "s" : "");
+  summary.appendChild(label);
+  summary.appendChild(count);
+  container.appendChild(summary);
 }
 
-function escapeHtml(str) {
-  var div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
+function el(tag, className) {
+  var node = document.createElement(tag);
+  if (className) node.className = className;
+  return node;
 }

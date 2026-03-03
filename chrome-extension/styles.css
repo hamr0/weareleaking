@@ -26,6 +26,13 @@ header {
   margin-bottom: 4px;
 }
 
+.tagline {
+  font-size: 11px;
+  color: #888;
+  margin-top: -2px;
+  margin-bottom: 4px;
+}
+
 .header-logo {
   width: 20px;
   height: 20px;
