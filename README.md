@@ -6,6 +6,8 @@ weareleaking scans localStorage and sessionStorage on every website you visit an
 
 Everything runs in your browser. No data is collected, transmitted, or shared.
 
+![weareleaking popup](store-assets/leaking.png)
+
 ## What it detects
 - **Cross-site tracking** — third-party systems following you across the web (`_ga`, `_fbp`, `segment`, `amplitude`, `hotjar`, etc.)
 - **Advertising** — ad networks and retargeting (`gclid`, `fbclid`, `utm_*`, `doubleclick`, `criteo`, `taboola`)
