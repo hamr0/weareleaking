@@ -14,18 +14,23 @@ Part of the **weare____** privacy tool series.
 - **PII exposure** — personal data sitting in storage (email addresses)
 - **Tracking** — generic tracking identifiers (UUIDs in values)
 
-## Install
+## Try It Now
+
+Store approval pending — install locally in under a minute:
 
 ### Chrome
-
-1. Go to `chrome://extensions/`
-2. Enable **Developer mode**
-3. Click **Load unpacked** → select `chrome-extension/`
+1. Download this repo (Code → Download ZIP) and unzip
+2. Go to `chrome://extensions` and turn on **Developer mode** (top right)
+3. Click **Load unpacked** → select the `chrome-extension` folder
+4. That's it — browse any site and click the extension icon
 
 ### Firefox
+1. Download this repo (Code → Download ZIP) and unzip
+2. Go to `about:debugging#/runtime/this-firefox`
+3. Click **Load Temporary Add-on** → pick any file in the `firefox-extension` folder
+4. That's it — browse any site and click the extension icon
 
-1. Go to `about:debugging#/runtime/this-firefox`
-2. Click **Load Temporary Add-on** → select `firefox-extension/manifest.json`
+> Firefox temporary add-ons reset when you close the browser — just re-load next session.
 
 ## How it works
 
